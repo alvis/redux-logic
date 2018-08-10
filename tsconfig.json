@@ -9,6 +9,7 @@
     "noResolve": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "strictNullChecks": true,
     "lib": [
       "dom",
       "es2017"

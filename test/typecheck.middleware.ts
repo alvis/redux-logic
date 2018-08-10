@@ -30,9 +30,11 @@ interface Dependency {
   depKey2?: string;
 }
 
-let dependency: Dependency;
+// @ts-ignore
+const dependency: Dependency = undefined;
 
-let logicArray: Logic[];
+// @ts-ignore
+const logicArray: Logic[] = undefined;
 
 {
   const middleware = createLogicMiddleware();
@@ -68,7 +70,8 @@ let logicArray: Logic[];
       shouldProcess?: boolean;
       dispAction?: Action;
     };
-    let next: (action?: ArgumentAction) => Action;
+    // @ts-ignore
+    const next: (action?: ArgumentAction) => Action = undefined;
 
     const monArr: Message[] = [];
     let monitor: Subject<Message> = middleware.monitor$;
@@ -92,15 +95,18 @@ let logicArray: Logic[];
 }
 
 {
-  let dispatch: (action: Action) => Action;
+  // @ts-ignore
+  const dispatch: (action: Action) => Action = undefined;
   const next = () => {};
 
   const middleware = createLogicMiddleware(logicArray);
   const storeFn = middleware({ dispatch })(next);
 
   {
-    let simpleAction: Action<'type'>;
-    let fullAction: Action<'type', Payload, Meta>;
+    // @ts-ignore
+    const simpleAction: Action<'type'> = undefined;
+    // @ts-ignore
+    const fullAction: Action<'type', Payload, Meta> = undefined;
 
     storeFn(simpleAction);
     storeFn(fullAction);

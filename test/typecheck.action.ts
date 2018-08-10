@@ -140,9 +140,11 @@ interface TestMeta {
 }
 
 {
-  let action: Action;
+  // @ts-ignore
+  const action: Action = {};
 
   {
+    // @ts-ignore
     const test: boolean | undefined = action.error;
   }
 
@@ -156,9 +158,11 @@ interface TestMeta {
 }
 
 {
-  let action: Action<TestType, TestPayload, TestMeta>;
+  // @ts-ignore
+  const action: Action<TestType, TestPayload, TestMeta> = {};
 
   {
+    // @ts-ignore
     const test: boolean | undefined = action.error;
   }
 
