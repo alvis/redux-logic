@@ -84,13 +84,15 @@ export function createLogicMiddleware<
 
 export namespace CreateLogicMiddleware {
   export interface Store<State> {
-    dispatch?: (action?: Action) => Action;
+    dispatch?: (action?: ArgumentAction) => Action;
     getState?: () => State;
   }
 
   export type Next = (next: Function) => ActionCreator;
 
-  export type ActionCreator = (action?: ArgumentAction) => Action;
+  export type ActionCreator = <Payload>(
+    action?: ArgumentAction
+  ) => Action<string, any, any>;
 }
 
 // ---------------------------------------- //

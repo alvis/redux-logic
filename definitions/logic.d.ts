@@ -35,8 +35,8 @@ import { Object, Override } from './utilities';
 
 export type Logic<
   State extends object = {},
-  Payload extends Object = undefined,
-  Meta extends Object = undefined,
+  Payload = undefined,
+  Meta = undefined,
   Dependency extends object = {},
   Context extends Object = undefined,
   Type extends string = string
@@ -60,51 +60,6 @@ export type Logic<
 export declare const createLogic: CreateLogic;
 
 export interface CreateLogic {
-  // full createLogic declaration
-  <
-    State extends object,
-    Payload extends Object = undefined,
-    Meta extends Object = undefined,
-    Dependency extends object = {},
-    Context extends Object = undefined,
-    Type extends string = string
-  >(
-    config: CreateLogic.Config<
-      State,
-      Action<Type, Payload, Meta>,
-      Dependency,
-      Context,
-      Type
-    >
-  ): Logic<State, Payload, Meta, Dependency, Context, Type>;
-
-  // createLogic wihout context
-  <
-    State extends object,
-    Payload extends Object = undefined,
-    Meta extends Object = undefined,
-    Dependency extends object = {},
-    Type extends string = string
-  >(
-    config: CreateLogic.Config<
-      State,
-      Action<Type, Payload, Meta>,
-      Dependency,
-      undefined,
-      Type
-    >
-  ): Logic<State, Payload, Meta, Dependency, undefined, Type>;
-
-  // createLogic wihout payload and meta
-  <
-    State extends object,
-    Dependency extends object = {},
-    Context extends Object = undefined,
-    Type extends string = string
-  >(
-    config: CreateLogic.Config<State, Action<Type>, Dependency, Context, Type>
-  ): Logic<State, undefined, undefined, Dependency, Context, Type>;
-
   // createLogic with State and Type only
   <State extends object, Type extends string = string>(
     config: CreateLogic.Config<State, Action<Type>, {}, undefined, Type>
@@ -118,6 +73,51 @@ export interface CreateLogic {
   >(
     config: CreateLogic.Config<State, Action<Type>, Dependency, undefined, Type>
   ): Logic<State, undefined, undefined, Dependency, undefined, Type>;
+
+  // createLogic wihout payload and meta
+  <
+    State extends object,
+    Dependency extends object = {},
+    Context extends Object = undefined,
+    Type extends string = string
+  >(
+    config: CreateLogic.Config<State, Action<Type>, Dependency, Context, Type>
+  ): Logic<State, undefined, undefined, Dependency, Context, Type>;
+
+  // createLogic wihout context
+  <
+    State extends object,
+    Payload = undefined,
+    Meta = undefined,
+    Dependency extends object = {},
+    Type extends string = string
+  >(
+    config: CreateLogic.Config<
+      State,
+      Action<Type, Payload, Meta>,
+      Dependency,
+      undefined,
+      Type
+    >
+  ): Logic<State, Payload, Meta, Dependency, undefined, Type>;
+
+  // full createLogic declaration
+  <
+    State extends object,
+    Payload = undefined,
+    Meta = undefined,
+    Dependency extends object = {},
+    Context extends Object = undefined,
+    Type extends string = string
+  >(
+    config: CreateLogic.Config<
+      State,
+      Action<Type, Payload, Meta>,
+      Dependency,
+      Context,
+      Type
+    >
+  ): Logic<State, Payload, Meta, Dependency, Context, Type>;
 }
 
 export namespace CreateLogic {
@@ -146,10 +146,9 @@ export namespace CreateLogic {
       | RegExp
       | Function;
 
-    export type TypeMatcher<
-      Type extends string | symbol,
-      Payload extends Object
-    > = PrimitiveType<Type, Payload> | PrimitiveType<Type, Payload>[];
+    export type TypeMatcher<Type extends string | symbol, Payload> =
+      | PrimitiveType<Type, Payload>
+      | PrimitiveType<Type, Payload>[];
 
     export type Pass<Action extends ActionBasis, Context extends Object> = (
       action: ArgumentAction &
@@ -230,9 +229,7 @@ export namespace CreateLogic {
 
     /* ----- process ----- */
 
-    type ActionCreator<
-      InputPayload extends Object
-    > = InputPayload extends undefined
+    type ActionCreator<InputPayload> = InputPayload extends undefined
       ? (payload?: InputPayload) => StandardAction<string, any>
       : (InputPayload extends Error
           ? (error?: Error) => Action<string, any>
